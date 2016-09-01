@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class ChooseAreaActivity extends Activity implements OnClickListener ,Runnable {
+public class ChooseAreaActivity extends Activity implements OnClickListener  {
 	
 	private EditText m_editProvince;
 	private Button  m_btnSearch;
@@ -45,13 +45,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener ,Run
 		
 	};
 	
-	
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void onClick(View v) {
