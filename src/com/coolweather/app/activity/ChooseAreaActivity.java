@@ -13,6 +13,7 @@ import com.coolweather.app.util.Utility;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,7 +40,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	
 	private List<City>  m_listCity = new ArrayList<City>(); //当前省下面的城市
 	private City m_selectedCity; //当前选择的城市
-	private String m_ProvinceName; //当前输入的省的名称
+	private String m_CityOrProvinceName; //当前输入的省的名称
 	
 	//显示加载进度框
 	private void showProgressDialog(){
@@ -63,10 +64,10 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		if(v.getId() == R.id.SearchBtn) {
 			
-			m_ProvinceName = m_editProvince.getText().toString();
-			if(TextUtils.isEmpty(m_ProvinceName)) {
+			m_CityOrProvinceName = m_editProvince.getText().toString();
+			if(TextUtils.isEmpty(m_CityOrProvinceName)) {
 				LogUtil.d("please input province name first");
-				Toast.makeText(this, "未输入省份名，请输入~", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "未输入省份名或城市名，请输入~", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
@@ -89,7 +90,9 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			StringBuilder itemContentBuilder = new StringBuilder();
 			for(City city : allCityList) {
 				String province = city.getProvince();
-				if(province.contains(m_ProvinceName) || m_ProvinceName.contains(province)) {
+				String cityName = city.getName();
+				if(province.contains(m_CityOrProvinceName) || m_CityOrProvinceName.contains(province)
+						|| cityName.contains(m_CityOrProvinceName) || m_CityOrProvinceName.contains(cityName)) {
 					m_listCity.add(city);
 					itemContentBuilder.setLength(0);
 					
@@ -101,7 +104,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			}
 			
 			if(m_listCity.isEmpty()) {
-				Toast.makeText(this, "未搜索到相关省份数据，请检查您输入的省份名称是否正确", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "未搜索到相关省份或城市数据，请检查您输入的名称是否正确", Toast.LENGTH_LONG).show();
 			}
 			
 			m_adapterCity.notifyDataSetChanged();
@@ -122,7 +125,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			@Override
 			public void OnFinish(String response) {
 				// TODO Auto-generated method stub
-				boolean result = Utility.handlerCityResponse(m_coolWeatherDB, response); //解析返回的数据，并存入数据库中
+				boolean result = Utility.handleCityResponse(m_coolWeatherDB, response); //解析返回的数据，并存入数据库中
 				if(result) {
 					//runOnUiThread 切换到UI线程（主线程)
 					runOnUiThread(new Runnable() {
@@ -182,8 +185,13 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 		m_listViewCity.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int index,long arg3) {
+
 				m_selectedCity = m_listCity.get(index);
 				LogUtil.d(m_selectedCity.toString());
+				Intent intent = new Intent(ChooseAreaActivity.this,WeatherActivity.class);
+				intent.putExtra("city_id", m_selectedCity.getId());
+				intent.putExtra("city_name", m_selectedCity.getName());
+				startActivity(intent);
 			}
 		});
 
