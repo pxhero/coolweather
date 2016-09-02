@@ -9,6 +9,15 @@ public class City {
 	private float longtitude;
 	private String province;
 	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name=" + name + ", country=" + county + ", id" + id + ",latitude=" + latitude + ",longtitude="
+				+longtitude+",province" + province;
+	}
+	
+	
 	public String getName() {
 		return name;
 	}

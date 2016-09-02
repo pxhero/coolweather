@@ -39,7 +39,7 @@ public class CoolWeatherDB {
 	
 	//获取CoolWeatherDB的实例 (synchronized 多线程安全的)
 	public synchronized static CoolWeatherDB getInstance(Context context) {
-		if(coolWeatherDB != null) {
+		if(coolWeatherDB == null) {
 			coolWeatherDB =new CoolWeatherDB(context);
 		}
 		return coolWeatherDB;
