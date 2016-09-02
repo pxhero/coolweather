@@ -9,7 +9,6 @@ import java.net.URL;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 public class HttpUtil {
 	
@@ -28,7 +27,10 @@ public class HttpUtil {
 	public static void SendHttpRequest(final String address, final HttpCallbackListener listener) {
 		
 		if(!isNetAvailable()) {
-			Toast.makeText(CoolWeatherApplication.getContext(), "当前无网络连接，请检查~", Toast.LENGTH_SHORT).show();
+			String msg = "当前无网络连接，请检查~";
+			if(listener !=null) {
+				listener.OnError(msg);
+			}
 			return;
 		}
 		
@@ -68,7 +70,7 @@ public class HttpUtil {
 				} catch (Exception e) {
 					// TODO: handle exception
 					if(listener != null) {
-						listener.OnError(e);
+						listener.OnException(e);
 					}
 				}
 				finally {

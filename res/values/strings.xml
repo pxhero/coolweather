@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="provinceHint">Please input province name</string>
     <string name="searchBtnText">开始</string>
+    <string name="waveLine">~</string>
 
 </resources>

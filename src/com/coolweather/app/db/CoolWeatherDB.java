@@ -31,7 +31,7 @@ public class CoolWeatherDB {
 	
 	private List<City> cityList = new ArrayList<City>();
 	
-	//将构造方法私有化（类似单例模式）
+	//将构造方法私有化（单例模式）
 	private CoolWeatherDB(Context context) {
 		CoolWeatherOpenHelper weatherOpenHelper = new CoolWeatherOpenHelper(context, DB_NAME, null, VERSION);
 		db = weatherOpenHelper.getWritableDatabase();  //获取db对象（引用）

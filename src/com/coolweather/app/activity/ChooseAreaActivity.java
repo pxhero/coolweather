@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -67,6 +66,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			m_ProvinceName = m_editProvince.getText().toString();
 			if(TextUtils.isEmpty(m_ProvinceName)) {
 				LogUtil.d("please input province name first");
+				Toast.makeText(this, "未输入省份名，请输入~", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
@@ -140,7 +140,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			}
 			
 			@Override
-			public void OnError(Exception e) {
+			public void OnException(Exception e) {
 				// TODO Auto-generated method stub
 				runOnUiThread(new Runnable() {  //切换到UI线程
 					
@@ -152,6 +152,14 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 					}
 				});
 			}
+
+			@Override
+			public void OnError(String msg) {
+				// TODO Auto-generated method stub
+				CloseProgressDialog();
+				Toast.makeText(ChooseAreaActivity.this, msg, Toast.LENGTH_SHORT).show();
+			}
+
 		});
 	}
 
@@ -159,7 +167,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.choose_area);
 		m_editProvince = (EditText)findViewById(R.id.provinceEdit);
 		m_btnSearch = (Button)findViewById(R.id.SearchBtn);
