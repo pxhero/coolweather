@@ -1,6 +1,7 @@
 package com.coolweather.app.activity;
 
 import com.coolweather.app.R;
+import com.coolweather.app.service.AutoUpdateService;
 import com.coolweather.app.util.HttpCallbackListener;
 import com.coolweather.app.util.HttpUtil;
 import com.coolweather.app.util.Utility;
@@ -30,6 +31,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView m_txtTempMin;
 	private TextView m_txtTempMax;
 	private LinearLayout m_layoutWeatherInfo;
+	
+	private static  boolean m_bHasStartService = false;
 	
 
 	private String m_strCityId;
@@ -130,6 +133,12 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtTempMin.setText(prefs.getString("tempMin", "") + "¡æ");
 		m_txtTempMax.setText(prefs.getString("tempMax", "") + "¡æ");
 		m_layoutWeatherInfo.setVisibility(View.VISIBLE);
+		
+		if(!m_bHasStartService) {
+			Intent intent = new Intent(this, AutoUpdateService.class);
+			startService(intent);
+			m_bHasStartService = true;
+		}
 	}
 		
 	@Override
