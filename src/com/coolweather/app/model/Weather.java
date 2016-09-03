@@ -7,6 +7,13 @@ public class Weather {
 	private String  tempMin;
 	private String tempMax;
 	private String description;
+	private String cityId;
+	public String getCityId() {
+		return cityId;
+	}
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
 	public String getCityName() {
 		return cityName;
 	}

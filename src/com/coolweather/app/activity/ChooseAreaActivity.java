@@ -14,10 +14,13 @@ import com.coolweather.app.util.Utility;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -169,8 +172,23 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		boolean bFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String cityId = sharedPreferences.getString("city_id", "");
+		String cityName = sharedPreferences.getString("city_name", "");
+		boolean bSelected = sharedPreferences.getBoolean("city_selected", false);
+		if(!TextUtils.isEmpty(cityId) && !TextUtils.isEmpty(cityName) && bSelected && !bFromWeatherActivity ) {
+			Intent intent = new Intent(ChooseAreaActivity.this,WeatherActivity.class);
+			intent.putExtra("city_id", cityId);
+			intent.putExtra("city_name", cityName);
+			startActivity(intent);	
+			finish();
+		}
+		
 		setContentView(R.layout.choose_area);
 		m_editProvince = (EditText)findViewById(R.id.provinceEdit);
 		m_btnSearch = (Button)findViewById(R.id.SearchBtn);
@@ -191,8 +209,9 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 				Intent intent = new Intent(ChooseAreaActivity.this,WeatherActivity.class);
 				intent.putExtra("city_id", m_selectedCity.getId());
 				intent.putExtra("city_name", m_selectedCity.getName());
-				startActivity(intent);
-			}
+				startActivity(intent);	
+				finish();
+			}			
 		});
 
 	}

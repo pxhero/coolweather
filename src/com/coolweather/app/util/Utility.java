@@ -35,6 +35,10 @@ public class Utility {
 				String updateTime = updateObj.getString("loc");
 				weather.setUpdateTime(updateTime);
 				
+				//解析出城市ID
+				String cityId = basicObj.getString("id");
+				weather.setCityId(cityId);
+				
 				//解析出城市名
 				String cityName = basicObj.getString("city");
 				weather.setCityName(cityName);
@@ -75,6 +79,7 @@ public class Utility {
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean("city_selected", true);
 		editor.putString("city_name", weather.getCityName());
+		editor.putString("city_id", weather.getCityId());
 		editor.putString("current_date", simpleDateFormat.format(new Date()));
 		editor.putString("update_time", weather.getUpdateTime());
 		editor.putString("tempMin", weather.getTempMin());
