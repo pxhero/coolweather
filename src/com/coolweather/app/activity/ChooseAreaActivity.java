@@ -174,7 +174,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		boolean bFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
