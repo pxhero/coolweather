@@ -48,6 +48,7 @@ public class CoolWeatherDB {
 	
 	//将city信息存入数据库中的City表
 	public void SaveCity(City city) {
+		
 		if(city != null) {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(CoolWeatherDB.City_Table.CITY_NAME, city.getName());
@@ -61,6 +62,10 @@ public class CoolWeatherDB {
 	}
 	
 	private void ReadAllCityFromDB() {
+		
+		//使用事务
+		db.beginTransaction();
+		
 		Cursor cursor = db.query("City", null, null, null, null, null, null);
 		if(cursor.moveToFirst()) {
 			do {
@@ -76,6 +81,29 @@ public class CoolWeatherDB {
 			} while (cursor.moveToNext());
 			cursor.close();
 		}
+		
+		db.setTransactionSuccessful();
+		db.endTransaction();
+	}
+	
+	public void AddCityToList(City city) {
+		if(city != null) {
+			cityList.add(city);
+		}
+	}
+	
+	public void SaveAllCityToDB() {
+		if(cityList.isEmpty())
+			return;
+		//使用事务
+		db.beginTransaction();
+		
+		for(City  city : cityList) {
+			SaveCity(city);
+		}
+		
+		db.setTransactionSuccessful();
+		db.endTransaction();
 	}
 	
 	public List<City> getCityList() {

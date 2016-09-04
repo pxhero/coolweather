@@ -112,9 +112,9 @@ public class Utility {
 					String strLongtitude = oneData.getString("lon");
 					city.setLongtitude(Float.valueOf(strLongtitude));
 					city.setProvince(oneData.getString("prov"));
-					db.SaveCity(city);
+					db.AddCityToList(city);
 				}
-				
+				db.SaveAllCityToDB();
 				bResult = true;
 			}
 			
