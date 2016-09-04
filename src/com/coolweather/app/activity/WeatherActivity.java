@@ -1,5 +1,12 @@
 package com.coolweather.app.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import org.apache.http.auth.NTCredentials;
+
 import com.coolweather.app.R;
 import com.coolweather.app.service.AutoUpdateService;
 import com.coolweather.app.util.HttpCallbackListener;
@@ -11,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -127,7 +135,27 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private void ShowWeather() {
 		//从SharedPreferences文件中读取天气数据，并显示
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		m_txtPublish.setText("发布时间:" + prefs.getString("update_time", ""));
+		
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+		try {
+			// 用parse方法，可能会异常，所以要try-catch
+			Date date = simpleDateFormat.parse(prefs.getString("update_time", ""));
+		    // 获取日期实例
+		    Calendar calendar = Calendar.getInstance();
+		    // 将日历设置为指定的时间
+		    calendar.setTime(date); 
+		    //获取小时
+		    int hour = calendar.get(Calendar.HOUR_OF_DAY);  
+		    //获取分钟
+		    int minute = calendar.get(Calendar.MINUTE);
+		    String strPushlishTime = "今天" + hour + ":" + minute + "发布";
+		    m_txtPublish.setText(strPushlishTime);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 		m_txtCurrentDate.setText(prefs.getString("current_date", ""));
 		m_txtWeatherDes.setText(prefs.getString("description", ""));
 		m_txtTempMin.setText(prefs.getString("tempMin", "") + "℃");
