@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,8 +38,17 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView m_txtTempMax;
 	private LinearLayout m_layoutWeatherInfo;
 	
-	private static  boolean m_bHasStartService = false;
-	
+	private static  boolean s_bHasStartService = false;
+	private static  long  s_LastShowTime = 0;
+
+	public static long getS_LastShowTime() {
+		return s_LastShowTime;
+	}
+
+
+	public static void setS_LastShowTime(long s_LastShowTime) {
+		WeatherActivity.s_LastShowTime = s_LastShowTime;
+	}
 
 	private String m_strCityId;
 	@Override
@@ -85,7 +95,11 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtCity.setText(cityName);
 		
 		getRemoteWeatherData();
+		
+		AutoUpdateService.setWeatherActivity(this);
 	}
+	
+	
 
 	/**
 	 * 
@@ -129,7 +143,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		});
 	}
 	
-	private void ShowWeather() {
+	public void ShowWeather() {
 		//从SharedPreferences文件中读取天气数据，并显示
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -159,10 +173,12 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtTempMax.setText(prefs.getString("tempMax", "") + "℃");
 		m_layoutWeatherInfo.setVisibility(View.VISIBLE);
 		
-		if(!m_bHasStartService) {
+		s_LastShowTime = SystemClock.elapsedRealtime();
+		
+		if(!s_bHasStartService) {
 			Intent intent = new Intent(this, AutoUpdateService.class);
 			startService(intent);
-			m_bHasStartService = true;
+			s_bHasStartService = true;
 		}
 	}
 		
@@ -170,6 +186,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		AutoUpdateService.setWeatherActivity(null);
 	}
 
 }

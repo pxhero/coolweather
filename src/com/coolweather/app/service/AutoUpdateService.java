@@ -1,5 +1,6 @@
 package com.coolweather.app.service;
 
+import com.coolweather.app.activity.WeatherActivity;
 import com.coolweather.app.receiver.AutoUpdateReceiver;
 import com.coolweather.app.util.HttpCallbackListener;
 import com.coolweather.app.util.HttpUtil;
@@ -18,6 +19,17 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 public class AutoUpdateService extends Service {
+	
+	private static WeatherActivity weatherActivity;
+	
+
+	public static WeatherActivity getWeatherActivity() {
+		return weatherActivity;
+	}
+
+	public static void setWeatherActivity(WeatherActivity weatherActivity) {
+		AutoUpdateService.weatherActivity = weatherActivity;
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -28,18 +40,21 @@ public class AutoUpdateService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				updateWeather();
-			}
-		}).start();
-		
+		int oneMinute = 60 * 1000;  //1分钟的毫秒数
+		if(SystemClock.elapsedRealtime() - WeatherActivity.getS_LastShowTime() >= oneMinute) {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					updateWeather();
+				}
+			}).start();
+		}
+
 		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		int anHour = 8 * 60 * 60 * 1000;  //8小时的毫秒数
-		long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
+		int eightHours = 8 * 60 * 60 * 1000;  //8小时的毫秒数
+		long triggerAtTime = SystemClock.elapsedRealtime() + eightHours;
 		Intent intent2 = new Intent(this, AutoUpdateReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent2, 0);
 		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pendingIntent);
@@ -61,6 +76,17 @@ public class AutoUpdateService extends Service {
 				public void OnFinish(String response) {
 					// TODO Auto-generated method stub
 					Utility.handleWeatherResponse(AutoUpdateService.this, response);
+				   if(weatherActivity !=null && !weatherActivity.isFinishing()) {
+					   weatherActivity.runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							LogUtil.d("后台服务以获取到新数据，开始更新界面");
+							// TODO Auto-generated method stub
+							weatherActivity.ShowWeather();
+						}
+					});
+				   }
 				}
 				
 				@Override
