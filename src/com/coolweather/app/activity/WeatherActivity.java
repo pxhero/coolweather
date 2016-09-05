@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import net.youmi.android.normal.banner.BannerManager;
 
 public class WeatherActivity extends Activity implements OnClickListener {
 	
@@ -40,6 +41,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	
 	private static  boolean s_bHasStartService = false;
 	private static  long  s_LastShowTime = 0;
+	
+	private static boolean s_ShowAd = true;
 
 	public static long getS_LastShowTime() {
 		return s_LastShowTime;
@@ -75,6 +78,17 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.weather_layout);
+		 
+		if(s_ShowAd) {
+			// 实例化广告条 
+			View adView = BannerManager.getInstance(this).getBanner(this);
+			// 获取要嵌入广告条的布局
+			LinearLayout adLayout=(LinearLayout)findViewById(R.id.adLayout);
+			// 将广告条加入到布局中
+			adLayout.addView(adView);
+		}
+
+		
 		m_btnSwitchCity = (Button)findViewById(R.id.switch_city);
 		m_btnRefresh = (Button)findViewById(R.id.refresh_weather);
 		m_txtCity = (TextView)findViewById(R.id.city_name);
