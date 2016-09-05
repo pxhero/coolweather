@@ -1,4 +1,4 @@
-package com.coolweather.app.util;
+package com.pxhero.coolweather.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,9 +7,9 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.coolweather.app.db.CoolWeatherDB;
-import com.coolweather.app.model.City;
-import com.coolweather.app.model.Weather;
+import com.pxhero.coolweather.db.CoolWeatherDB;
+import com.pxhero.coolweather.model.City;
+import com.pxhero.coolweather.model.Weather;
 
 import android.content.Context;
 import android.content.SharedPreferences;

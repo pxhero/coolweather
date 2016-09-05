@@ -1,6 +1,6 @@
-package com.coolweather.app.receiver;
+package com.pxhero.coolweather.receiver;
 
-import com.coolweather.app.service.AutoUpdateService;
+import com.pxhero.coolweather.service.AutoUpdateService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

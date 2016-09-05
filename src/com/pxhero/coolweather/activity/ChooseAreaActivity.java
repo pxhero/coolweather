@@ -1,15 +1,15 @@
-package com.coolweather.app.activity;
+package com.pxhero.coolweather.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coolweather.app.R;
-import com.coolweather.app.db.CoolWeatherDB;
-import com.coolweather.app.model.City;
-import com.coolweather.app.util.HttpCallbackListener;
-import com.coolweather.app.util.HttpUtil;
-import com.coolweather.app.util.LogUtil;
-import com.coolweather.app.util.Utility;
+import com.pxhero.coolweather.R;
+import com.pxhero.coolweather.db.CoolWeatherDB;
+import com.pxhero.coolweather.model.City;
+import com.pxhero.coolweather.util.HttpCallbackListener;
+import com.pxhero.coolweather.util.HttpUtil;
+import com.pxhero.coolweather.util.LogUtil;
+import com.pxhero.coolweather.util.Utility;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

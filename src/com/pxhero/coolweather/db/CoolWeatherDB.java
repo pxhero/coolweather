@@ -1,9 +1,9 @@
-package com.coolweather.app.db;
+package com.pxhero.coolweather.db;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coolweather.app.model.City;
+import com.pxhero.coolweather.model.City;
 
 import android.content.ContentValues;
 import android.content.Context;

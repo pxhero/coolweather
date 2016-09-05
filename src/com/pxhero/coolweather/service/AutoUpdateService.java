@@ -1,11 +1,11 @@
-package com.coolweather.app.service;
+package com.pxhero.coolweather.service;
 
-import com.coolweather.app.activity.WeatherActivity;
-import com.coolweather.app.receiver.AutoUpdateReceiver;
-import com.coolweather.app.util.HttpCallbackListener;
-import com.coolweather.app.util.HttpUtil;
-import com.coolweather.app.util.LogUtil;
-import com.coolweather.app.util.Utility;
+import com.pxhero.coolweather.activity.WeatherActivity;
+import com.pxhero.coolweather.receiver.AutoUpdateReceiver;
+import com.pxhero.coolweather.util.HttpCallbackListener;
+import com.pxhero.coolweather.util.HttpUtil;
+import com.pxhero.coolweather.util.LogUtil;
+import com.pxhero.coolweather.util.Utility;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

@@ -1,15 +1,15 @@
-package com.coolweather.app.activity;
+package com.pxhero.coolweather.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.coolweather.app.R;
-import com.coolweather.app.service.AutoUpdateService;
-import com.coolweather.app.util.HttpCallbackListener;
-import com.coolweather.app.util.HttpUtil;
-import com.coolweather.app.util.Utility;
+import com.pxhero.coolweather.R;
+import com.pxhero.coolweather.service.AutoUpdateService;
+import com.pxhero.coolweather.util.HttpCallbackListener;
+import com.pxhero.coolweather.util.HttpUtil;
+import com.pxhero.coolweather.util.Utility;
 
 import android.app.Activity;
 import android.content.Intent;
