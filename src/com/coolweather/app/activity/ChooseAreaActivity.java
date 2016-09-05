@@ -170,7 +170,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
-		AdManager.getInstance(this).init("3546c032bef46ec0", "afefe8ff69aea86b", false, true);
+		AdManager.getInstance(this).init("d2eff7a1f55be5fb", "5dbc93b630b86daf", false, true);
 		
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
