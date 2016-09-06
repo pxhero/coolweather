@@ -38,7 +38,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView m_txtTempMin;
 	private TextView m_txtTempMax;
 	private TextView m_txtCurrentTemp;
-	private LinearLayout m_layoutWeatherInfo;
+	private TextView m_txtWave;
 	
 	private static  boolean s_bHasStartService = false;
 	private static  long  s_LastShowTime = 0;
@@ -99,7 +99,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtTempMin = (TextView)findViewById(R.id.temp1);
 		m_txtTempMax = (TextView)findViewById(R.id.temp2);
 		m_txtCurrentTemp = (TextView)findViewById(R.id.currentTmp);
-		m_layoutWeatherInfo = (LinearLayout)findViewById(R.id.weather_info_layout);
+		m_txtWave = (TextView)findViewById(R.id.waveText);
+		m_txtWave.setVisibility(View.INVISIBLE);
 		
 		m_btnSwitchCity.setOnClickListener(this);
 		m_btnRefresh.setOnClickListener(this);
@@ -122,7 +123,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	 */
 	private void getRemoteWeatherData() {
 		m_txtPublish.setText("正在同步中...");
-		m_layoutWeatherInfo.setVisibility(View.INVISIBLE);  //天气数据未请求成功之前，先隐藏该布局
+		//m_layoutWeatherInfo.setVisibility(View.INVISIBLE);  //天气数据未请求成功之前，先隐藏该布局
 
 		
 		StringBuilder remoteUrl = new StringBuilder();
@@ -188,7 +189,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtTempMin.setText(prefs.getString("tempMin", "") + "℃");
 		m_txtTempMax.setText(prefs.getString("tempMax", "") + "℃");
 		m_txtCurrentTemp.setText("当前温度:" + prefs.getString("tmp", "") + "℃");
-		m_layoutWeatherInfo.setVisibility(View.VISIBLE);
+		m_txtWave.setVisibility(View.VISIBLE);
 		
 		s_LastShowTime = SystemClock.elapsedRealtime();
 		
