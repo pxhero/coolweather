@@ -37,6 +37,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView m_txtWeatherDes;
 	private TextView m_txtTempMin;
 	private TextView m_txtTempMax;
+	private TextView m_txtCurrentTemp;
 	private LinearLayout m_layoutWeatherInfo;
 	
 	private static  boolean s_bHasStartService = false;
@@ -97,6 +98,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtWeatherDes = (TextView)findViewById(R.id.weather_desp);
 		m_txtTempMin = (TextView)findViewById(R.id.temp1);
 		m_txtTempMax = (TextView)findViewById(R.id.temp2);
+		m_txtCurrentTemp = (TextView)findViewById(R.id.currentTmp);
 		m_layoutWeatherInfo = (LinearLayout)findViewById(R.id.weather_info_layout);
 		
 		m_btnSwitchCity.setOnClickListener(this);
@@ -185,6 +187,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtWeatherDes.setText(prefs.getString("description", ""));
 		m_txtTempMin.setText(prefs.getString("tempMin", "") + "¡æ");
 		m_txtTempMax.setText(prefs.getString("tempMax", "") + "¡æ");
+		m_txtCurrentTemp.setText("µ±Ç°ÎÂ¶È:" + prefs.getString("tmp", "") + "¡æ");
 		m_layoutWeatherInfo.setVisibility(View.VISIBLE);
 		
 		s_LastShowTime = SystemClock.elapsedRealtime();

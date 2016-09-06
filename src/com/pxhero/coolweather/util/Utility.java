@@ -48,6 +48,10 @@ public class Utility {
 				String desText = condObj.getString("txt");
 				weather.setDescription(desText);
 				
+				//解析出当前温度
+				String temp= nowObj.getString("tmp");
+				weather.setTmp(temp);
+				
 				//解析出最低和最高温度值
 				JSONArray dailyArray = weatherObj.getJSONArray("daily_forecast");
 				JSONObject forcastObj = null;
@@ -85,6 +89,7 @@ public class Utility {
 		editor.putString("tempMin", weather.getTempMin());
 		editor.putString("tempMax", weather.getTempMax());
 		editor.putString("description", weather.getDescription());
+		editor.putString("tmp", weather.getTmp());
 		editor.commit();
 	}
 	

@@ -8,6 +8,14 @@ public class Weather {
 	private String tempMax;
 	private String description;
 	private String cityId;
+	private String tmp; //µ±Ç°ÎÂ¶È
+	
+	public String getTmp() {
+		return tmp;
+	}
+	public void setTmp(String tmp) {
+		this.tmp = tmp;
+	}
 	public String getCityId() {
 		return cityId;
 	}

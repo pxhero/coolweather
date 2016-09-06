@@ -93,7 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#FFF"
-                    android:textSize="40sp" />
+                    android:textSize="30sp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +104,7 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/waveLine"
                     android:textColor="#FFF"
-                    android:textSize="40sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/temp2"
@@ -111,8 +112,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#FFF"
-                    android:textSize="40sp" />
+                    android:textSize="30sp"
+                	/>
             </LinearLayout>
+            
+            <TextView android:id="@+id/currentTmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#FFF"
+                android:textSize="40sp" />
         </LinearLayout>
         
         <LinearLayout
