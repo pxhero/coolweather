@@ -1,16 +1,5 @@
 package com.pxhero.coolweather.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.pxhero.coolweather.R;
-import com.pxhero.coolweather.db.CoolWeatherDB;
-import com.pxhero.coolweather.model.City;
-import com.pxhero.coolweather.util.HttpCallbackListener;
-import com.pxhero.coolweather.util.HttpUtil;
-import com.pxhero.coolweather.util.LogUtil;
-import com.pxhero.coolweather.util.Utility;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,7 +16,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.pxhero.coolweather.R;
+import com.pxhero.coolweather.db.CoolWeatherDB;
+import com.pxhero.coolweather.model.City;
+import com.pxhero.coolweather.util.HttpCallbackListener;
+import com.pxhero.coolweather.util.HttpUtil;
+import com.pxhero.coolweather.util.LogUtil;
+import com.pxhero.coolweather.util.Utility;
+
 import net.youmi.android.AdManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseAreaActivity extends Activity implements OnClickListener {
 
@@ -170,8 +171,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
-		AdManager.getInstance(this).init("d2eff7a1f55be5fb", "5dbc93b630b86daf", false, true);
-		
+		AdManager.getInstance(this).init("bd5beed1d4d3462e", "4f3378fc51c42a0f", true, true);
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 
