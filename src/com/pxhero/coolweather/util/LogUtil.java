@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class LogUtil {
 	
-	private static final String LOG_TAG ="pxhero";
+	private static final String LOG_TAG ="pxherolog";
 	private static final int VERBOSE = 1;
 	private static final int DEBUG = 2;
 	private static final int INFO = 3;

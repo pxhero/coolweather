@@ -17,13 +17,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.pxhero.coolweather.R;
 import com.pxhero.coolweather.db.CoolWeatherDB;
 import com.pxhero.coolweather.model.City;
-import com.pxhero.coolweather.util.HttpCallbackListener;
-import com.pxhero.coolweather.util.HttpUtil;
 import com.pxhero.coolweather.util.LogUtil;
-import com.pxhero.coolweather.util.Utility;
+import com.pxhero.coolweather.util.ProcessDataCallbackListener;
+import com.pxhero.coolweather.util.ProcessDataUtil;
 
 import net.youmi.android.AdManager;
 
@@ -45,6 +49,8 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	private List<City> m_listCity = new ArrayList<City>(); // 当前省下面的城市
 	private City m_selectedCity; // 当前选择的城市
 	private String m_CityOrProvinceName; // 当前输入的省的名称
+
+	private RequestQueue m_requestQueue;
 
 	// 显示加载进度框
 	private void showProgressDialog() {
@@ -122,7 +128,46 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 	// 从服务器上获取全国城市l数据，并存入db中
 	private void getCityListFromRemote() {
 		String remoteAddress = "https://api.heweather.com/x3/citylist?search=allchina&key=61f064c29360492eb6a6d473dd1e132c";
-		HttpUtil.SendHttpRequest(remoteAddress, new HttpCallbackListener() {
+
+
+        StringRequest stringRequest = new StringRequest(remoteAddress,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //当前是主线程
+
+                        ProcessDataUtil.ProcessCityData(m_coolWeatherDB, response, new ProcessDataCallbackListener() {
+                            @Override
+                            public void OnFinish() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        searchCity();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnError() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(ChooseAreaActivity.this, "解析城市数据失败。。。", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                CloseProgressDialog();
+                Toast.makeText(ChooseAreaActivity.this, "获取城市数据失败。。。", Toast.LENGTH_SHORT).show();
+            }
+        });
+        m_requestQueue.add(stringRequest);
+
+/*        HttpUtil.SendHttpRequest(remoteAddress, new HttpCallbackListener() {
 
 			@Override
 			public void OnFinish(String response) {
@@ -139,8 +184,8 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 						}
 					});
 				} else {
-					Toast.makeText(ChooseAreaActivity.this, "获取城市数据失败。。。", Toast.LENGTH_SHORT).show();
-				}
+                    Toast.makeText(ChooseAreaActivity.this, "获取城市数据失败。。。", Toast.LENGTH_SHORT).show();
+                }
 			}
 
 			@Override
@@ -164,7 +209,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 				Toast.makeText(ChooseAreaActivity.this, msg, Toast.LENGTH_SHORT).show();
 			}
 
-		});
+		});*/
 	}
 
 	@Override
@@ -174,6 +219,8 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 		AdManager.getInstance(this).init("bd5beed1d4d3462e", "4f3378fc51c42a0f", true, true);
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //LogUtil.d("当前线程id=" +String.valueOf(Thread.currentThread().getId()));
 
 		boolean bFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -187,6 +234,8 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			finish();
 		}
+
+        m_requestQueue = Volley.newRequestQueue(this);
 
 		setContentView(R.layout.choose_area);
 		m_editProvince = (EditText) findViewById(R.id.provinceEdit);

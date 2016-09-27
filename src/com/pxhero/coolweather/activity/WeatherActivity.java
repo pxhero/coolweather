@@ -1,30 +1,37 @@
 package com.pxhero.coolweather.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import com.pxhero.coolweather.R;
-import com.pxhero.coolweather.service.AutoUpdateService;
-import com.pxhero.coolweather.util.HttpCallbackListener;
-import com.pxhero.coolweather.util.HttpUtil;
-import com.pxhero.coolweather.util.Utility;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.pxhero.coolweather.R;
+import com.pxhero.coolweather.service.AutoUpdateService;
+import com.pxhero.coolweather.util.ProcessDataCallbackListener;
+import com.pxhero.coolweather.util.ProcessDataUtil;
+
 import net.youmi.android.normal.banner.BannerManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class WeatherActivity extends Activity implements OnClickListener {
 	
@@ -39,11 +46,13 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView m_txtTempMax;
 	private TextView m_txtCurrentTemp;
 	private TextView m_txtWave;
-	
+
 	private static  boolean s_bHasStartService = false;
 	private static  long  s_LastShowTime = 0;
 	
-	private static boolean s_ShowAd = true;
+	private boolean m_showAd = true;
+
+	private RequestQueue m_requestQueue;
 
 	public static long getS_LastShowTime() {
 		return s_LastShowTime;
@@ -70,7 +79,15 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			getRemoteWeatherData();
 		}
 	}
-	
+
+	private boolean IsStartWifi(final Context context) {
+		try {
+			WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+			return (wm!=null && WifiManager.WIFI_STATE_ENABLED == wm.getWifiState());
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +96,16 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.weather_layout);
+
+
+		if(IsStartWifi(this)) {
+			m_showAd = true;
+		}
+		else {
+			m_showAd = false;
+		}
 		 
-		if(s_ShowAd) {
+		if(m_showAd) {
 			// 实例化广告条 
 			View adView = BannerManager.getInstance(this).getBanner(this);
 			// 获取要嵌入广告条的布局
@@ -88,6 +113,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			// 将广告条加入到布局中
 			adLayout.addView(adView);
 		}
+
+		m_requestQueue = Volley.newRequestQueue(this);
 
 		
 		m_btnSwitchCity = (Button)findViewById(R.id.switch_city);
@@ -125,12 +152,44 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		m_txtPublish.setText("正在同步中...");
 		//m_layoutWeatherInfo.setVisibility(View.INVISIBLE);  //天气数据未请求成功之前，先隐藏该布局
 
-		
+
 		StringBuilder remoteUrl = new StringBuilder();
 		remoteUrl.append("https://api.heweather.com/x3/weather?key=61f064c29360492eb6a6d473dd1e132c&cityid=");
 		remoteUrl.append(m_strCityId);
-		
-		HttpUtil.SendHttpRequest(remoteUrl.toString(), new HttpCallbackListener() {
+
+		StringRequest stringRequest = new StringRequest(remoteUrl.toString(),
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						//Log.d("TAG", response);
+						ProcessDataUtil.ProcessWeatherData(WeatherActivity.this, response, new ProcessDataCallbackListener() {
+							@Override
+							public void OnFinish() {
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										ShowWeather();
+									}
+								});
+							}
+
+							@Override
+							public void OnError() {
+
+							}
+						});
+					}
+				}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Log.e("TAG", error.getMessage(), error);
+			}
+		});
+
+		m_requestQueue.add(stringRequest);
+
+
+/*		HttpUtil.SendHttpRequest(remoteUrl.toString(), new HttpCallbackListener() {
 			
 			@Override
 			public void OnFinish(String response) {
@@ -157,7 +216,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				Toast.makeText(WeatherActivity.this, msg, Toast.LENGTH_SHORT).show();
 			}
-		});
+		});*/
 	}
 	
 	public void ShowWeather() {

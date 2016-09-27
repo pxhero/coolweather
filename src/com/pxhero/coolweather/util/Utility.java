@@ -1,20 +1,22 @@
 package com.pxhero.coolweather.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.pxhero.coolweather.db.CoolWeatherDB;
 import com.pxhero.coolweather.model.City;
 import com.pxhero.coolweather.model.Weather;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
 
 public class Utility {
 	
@@ -25,7 +27,6 @@ public class Utility {
 			JSONArray jsonArray = jsonObject.getJSONArray("HeWeather data service 3.0");
 			
 			if(jsonArray.length() > 0) {
-				
 				Weather weather = new Weather();
 				
 				JSONObject  weatherObj = jsonArray.getJSONObject(0);
