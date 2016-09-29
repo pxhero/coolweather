@@ -98,12 +98,12 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.weather_layout);
 
 
-		if(IsStartWifi(this)) {
+/*		if(IsStartWifi(this)) {
 			m_showAd = true;
 		}
 		else {
 			m_showAd = false;
-		}
+		}*/
 		 
 		if(m_showAd) {
 			// 实例化广告条 
