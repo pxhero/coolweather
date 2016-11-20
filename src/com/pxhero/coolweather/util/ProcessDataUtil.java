@@ -36,10 +36,11 @@ public class ProcessDataUtil {
             LogUtil.d("ProcessWeatherData: param is invalid");
             return;
         }
-
+        LogUtil.d("ProcessWeatherData: Start a thread to parse Weather response");
         new Thread(new Runnable() {
             @Override
             public void run() {
+                LogUtil.d("v5:ProcessWeatherData run" + data);
                 Utility.handleWeatherResponse(context, data);
                 if(listener!=null) {
                     listener.OnFinish();

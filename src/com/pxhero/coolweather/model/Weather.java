@@ -2,15 +2,32 @@ package com.pxhero.coolweather.model;
 
 public class Weather {
 
-	private String cityName;
-	private String  updateTime;
-	private String  tempMin;
-	private String tempMax;
-	private String description;
-	private String cityId;
+	private String cityName;//城市名称
+	private String cityId;//城市id
+	private String  updateTime;//发布时间
+	private String description;//天气描述
 	private String tmp; //当前温度
-	
+	private String code;//天气代码
+	private String airDes; //天气空气质量描述
+
+	public String getAirDes() {
+		return airDes;
+	}
+
+	public void setAirDes(String airDes) {
+		this.airDes = airDes;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getTmp() {
+
 		return tmp;
 	}
 	public void setTmp(String tmp) {
@@ -28,24 +45,12 @@ public class Weather {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	
+
 	public String getUpdateTime() {
 		return updateTime;
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
-	}
-	public String getTempMin() {
-		return tempMin;
-	}
-	public void setTempMin(String tempMin) {
-		this.tempMin = tempMin;
-	}
-	public String getTempMax() {
-		return tempMax;
-	}
-	public void setTempMax(String tempMax) {
-		this.tempMax = tempMax;
 	}
 	public String getDescription() {
 		return description;
@@ -53,7 +58,7 @@ public class Weather {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	
+
+
+
 }

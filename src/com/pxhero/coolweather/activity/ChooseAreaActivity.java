@@ -29,7 +29,6 @@ import com.pxhero.coolweather.util.LogUtil;
 import com.pxhero.coolweather.util.ProcessDataCallbackListener;
 import com.pxhero.coolweather.util.ProcessDataUtil;
 
-import net.youmi.android.AdManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +126,10 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 
 	// 从服务器上获取全国城市l数据，并存入db中
 	private void getCityListFromRemote() {
-		String remoteAddress = "https://api.heweather.com/x3/citylist?search=allchina&key=61f064c29360492eb6a6d473dd1e132c";
+		//old
+		//String remoteAddress = "https://api.heweather.com/x3/citylist?search=allchina&key=61f064c29360492eb6a6d473dd1e132c";
+
+		String remoteAddress = "http://files.heweather.com/china-city-list.json";
 
 
         StringRequest stringRequest = new StringRequest(remoteAddress,
@@ -167,56 +169,11 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
         });
         m_requestQueue.add(stringRequest);
 
-/*        HttpUtil.SendHttpRequest(remoteAddress, new HttpCallbackListener() {
-
-			@Override
-			public void OnFinish(String response) {
-				// TODO Auto-generated method stub
-				boolean result = Utility.handleCityResponse(m_coolWeatherDB, response); // 解析返回的数据，并存入数据库中
-				if (result) {
-					// runOnUiThread 切换到UI线程（主线程)
-					runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							searchCity();
-						}
-					});
-				} else {
-                    Toast.makeText(ChooseAreaActivity.this, "获取城市数据失败。。。", Toast.LENGTH_SHORT).show();
-                }
-			}
-
-			@Override
-			public void OnException(Exception e) {
-				// TODO Auto-generated method stub
-				runOnUiThread(new Runnable() { // 切换到UI线程
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						CloseProgressDialog();
-						Toast.makeText(ChooseAreaActivity.this, "获取城市数据失败。。。", Toast.LENGTH_SHORT).show();
-					}
-				});
-			}
-
-			@Override
-			public void OnError(String msg) {
-				// TODO Auto-generated method stub
-				CloseProgressDialog();
-				Toast.makeText(ChooseAreaActivity.this, msg, Toast.LENGTH_SHORT).show();
-			}
-
-		});*/
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-
-		AdManager.getInstance(this).init("bd5beed1d4d3462e", "4f3378fc51c42a0f", true, true);
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -228,7 +185,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 		String cityName = sharedPreferences.getString("city_name", "");
 		boolean bSelected = sharedPreferences.getBoolean("city_selected", false);
 		if (!TextUtils.isEmpty(cityId) && !TextUtils.isEmpty(cityName) && bSelected && !bFromWeatherActivity) {
-			Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+			Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity_v2.class);
 			intent.putExtra("city_id", cityId);
 			intent.putExtra("city_name", cityName);
 			startActivity(intent);
@@ -254,7 +211,7 @@ public class ChooseAreaActivity extends Activity implements OnClickListener {
 
 				m_selectedCity = m_listCity.get(index);
 				LogUtil.d(m_selectedCity.toString());
-				Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+				Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity_v2.class);
 				intent.putExtra("city_id", m_selectedCity.getId());
 				intent.putExtra("city_name", m_selectedCity.getName());
 				startActivity(intent);

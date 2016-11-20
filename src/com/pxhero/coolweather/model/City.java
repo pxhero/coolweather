@@ -13,8 +13,8 @@ public class City {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "name=" + name + ", country=" + county + ", id" + id + ",latitude=" + latitude + ",longtitude="
-				+longtitude+",province" + province;
+		return "name=" + name + ", country=" + county + ", id=" + id + ",latitude=" + latitude + ",longtitude="
+				+longtitude+",province=" + province;
 	}
 	
 	

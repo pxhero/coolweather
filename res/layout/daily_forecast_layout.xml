@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#27A5F9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/forecast_dateDes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天"
+            android:textSize="@dimen/forecast_text_font_size"
+            android:textColor="@color/ForecastTextcolor"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/forecast_weather_img"
+            android:scaleType="centerCrop" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#dddddd"/>
+
+    <TextView
+        android:id="@+id/forecast_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2016年11月20日"
+        android:textSize="@dimen/forecast_text_font_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/ForecastTextcolor"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#dddddd"/>
+
+    <TextView
+        android:id="@+id/forcast_weather_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="雨夹雪转暴雪"
+        android:textSize="@dimen/forecast_text_font_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/ForecastTextcolor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-1℃~5℃"
+        android:layout_gravity="center"
+        android:textSize="@dimen/forecast_text_font_size"
+        android:gravity="center"
+        android:id="@+id/forecast_tmp_range"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/ForecastTextcolor"/>
+
+
+    <TextView
+        android:id="@+id/forecast_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/forecast_text_font_size"
+        android:text="北风(4-5级)"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/ForecastTextcolor"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="2px"
+        android:background="#dddddd"/>
+
+</LinearLayout>

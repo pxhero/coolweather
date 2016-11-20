@@ -1,6 +1,6 @@
 package com.pxhero.coolweather.service;
 
-import com.pxhero.coolweather.activity.WeatherActivity;
+import com.pxhero.coolweather.activity.WeatherActivity_v2;
 import com.pxhero.coolweather.receiver.AutoUpdateReceiver;
 import com.pxhero.coolweather.util.HttpCallbackListener;
 import com.pxhero.coolweather.util.HttpUtil;
@@ -20,15 +20,15 @@ import android.text.TextUtils;
 
 public class AutoUpdateService extends Service {
 	
-	private static WeatherActivity weatherActivity;
+	private static WeatherActivity_v2 weatherActivityV2;
 	
 
-	public static WeatherActivity getWeatherActivity() {
-		return weatherActivity;
+	public static WeatherActivity_v2 getWeatherActivityV2() {
+		return weatherActivityV2;
 	}
 
-	public static void setWeatherActivity(WeatherActivity weatherActivity) {
-		AutoUpdateService.weatherActivity = weatherActivity;
+	public static void setWeatherActivityV2(WeatherActivity_v2 weatherActivityV2) {
+		AutoUpdateService.weatherActivityV2 = weatherActivityV2;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class AutoUpdateService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		int oneMinute = 60 * 1000;  //1分钟的毫秒数
-		if(SystemClock.elapsedRealtime() - WeatherActivity.getS_LastShowTime() >= oneMinute) {
+		if(SystemClock.elapsedRealtime() - WeatherActivity_v2.getS_LastShowTime() >= oneMinute) {
 			new Thread(new Runnable() {
 				
 				@Override
@@ -76,14 +76,14 @@ public class AutoUpdateService extends Service {
 				public void OnFinish(String response) {
 					// TODO Auto-generated method stub
 					Utility.handleWeatherResponse(AutoUpdateService.this, response);
-				   if(weatherActivity !=null && !weatherActivity.isFinishing()) {
-					   weatherActivity.runOnUiThread(new Runnable() {
+				   if(weatherActivityV2 !=null && !weatherActivityV2.isFinishing()) {
+					   weatherActivityV2.runOnUiThread(new Runnable() {
 						
 						@Override
 						public void run() {
 							LogUtil.d("后台服务以获取到新数据，开始更新界面");
 							// TODO Auto-generated method stub
-							weatherActivity.ShowWeather();
+							weatherActivityV2.ShowWeather();
 						}
 					});
 				   }

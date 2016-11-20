@@ -16,14 +16,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!-- 如果使用积分墙广告,还需要配置下面权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- 以下为可选权限 -->
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
         android:name="com.pxhero.coolweather.util.CoolWeatherApplication"
@@ -31,10 +23,6 @@
         android:icon="@drawable/coolweather"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="YOUMI_CHANNEL"
-            android:value="30001" >
-        </meta-data>
 
         <activity
             android:name="com.pxhero.coolweather.activity.ChooseAreaActivity"
@@ -45,7 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pxhero.coolweather.activity.WeatherActivity" >
+        <activity android:name="com.pxhero.coolweather.activity.WeatherActivity_v2" >
         </activity>
 
         <service android:name="com.pxhero.coolweather.service.AutoUpdateService" >
@@ -53,25 +41,7 @@
 
         <receiver android:name="com.pxhero.coolweather.receiver.AutoUpdateReceiver" >
         </receiver>
-        
-		<activity
-		    android:name="net.youmi.android.AdBrowser"
-		    android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-		    android:theme="@android:style/Theme.Light.NoTitleBar" >
-		</activity>
-		
-		<service
-		    android:name="net.youmi.android.AdService"
-		    android:exported="false" >
-		</service>
-		
-		<receiver
-		    android:name="net.youmi.android.AdReceiver" >
-		    <intent-filter>
-		        <action android:name="android.intent.action.PACKAGE_ADDED" />
-		        <data android:scheme="package" />
-		    </intent-filter>
-		</receiver>
+
 		
     </application>
 
