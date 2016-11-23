@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Switch;
 
 import com.pxhero.coolweather.db.CoolWeatherDB;
 import com.pxhero.coolweather.model.City;
@@ -16,7 +17,9 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -145,10 +148,50 @@ public class Utility {
                     fInfo.setmDateDes("今天");
                 } else if (i == 1) {
                     fInfo.setmDateDes("明天");
-                } else if (i == 2) {
-                    fInfo.setmDateDes("后天");
                 } else {
-                    fInfo.setmDateDes("第" + (i + 1) + "天");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = sdf.parse(fInfo.getmDate());
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(date);
+                    //一周第一天是否为星期天
+                    boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+                    //获取周几
+                    int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+                    //若一周第一天为星期天，则-1
+                    if(isFirstSunday){
+                        weekDay = weekDay - 1;
+                        if(weekDay == 0){
+                            weekDay = 7;
+                        }
+                    }
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("星期");
+                    switch (weekDay) {
+                        case 1:
+                            stringBuilder.append("一");
+                            break;
+                        case 2:
+                            stringBuilder.append("二");
+                            break;
+                        case 3:
+                            stringBuilder.append("三");
+                            break;
+                        case 4:
+                            stringBuilder.append("四");
+                            break;
+                        case 5:
+                            stringBuilder.append("五");
+                            break;
+                        case 6:
+                            stringBuilder.append("六");
+                            break;
+                        case 7:
+                            stringBuilder.append("天");
+                            break;
+                        default:
+                            break;
+                    }
+                    fInfo.setmDateDes(stringBuilder.toString());
                 }
 
                 forecastList.add(fInfo);
